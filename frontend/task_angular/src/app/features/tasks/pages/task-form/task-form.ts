@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
 import {FormControl, ReactiveFormsModule, FormBuilder, Validators, FormGroup} from '@angular/forms';
-import { Priority } from '../../enums/priority';
-import { Status } from '../../enums/status';
+import { Priority } from '../../../../model/priority';
+import { Status } from '../../../../model/status';
 
 @Component({
   selector: 'app-input-form',
   standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './input-form.html',
-  styleUrl: './input-form.css',
+  templateUrl: './task-form.html',
+  styleUrl: './task-form.css',
 })
 export class InputForm {
 
