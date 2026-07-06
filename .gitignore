@@ -1,8 +1,7 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# Backend (Java/Maven)
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/HELP.md
 
 ### STS ###
 .apt_generated
@@ -26,8 +25,24 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+
+### Frontend (Angular)
+frontend/task_angular/dist/
+frontend/task_angular/tmp/
+frontend/task_angular/out-tsc/
+frontend/task_angular/bazel-out/
+frontend/task_angular/node_modules/
+frontend/task_angular/npm-debug.log
+frontend/task_angular/yarn-error.log
+frontend/task_angular/.angular/cache
+frontend/task_angular/.sass-cache/
+frontend/task_angular/coverage/
+frontend/task_angular/testem.log
 
 ### VS Code ###
 .vscode/
+.history/
+
+### System files ###
+.DS_Store
+Thumbs.db

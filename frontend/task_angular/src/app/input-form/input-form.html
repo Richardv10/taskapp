@@ -1,0 +1,60 @@
+
+<div class=" form-group">
+
+    <form [formGroup]= "form"
+    (ngSubmit)= "save()">
+
+        <label for="title"> Title: </label>
+
+        <input id="title" type="text" formControlName="title">
+        @if (form.controls.title.invalid && form.controls.title.touched) {
+            
+            <small>
+
+            Title is required.
+
+            </small>
+        }
+
+        <label>
+            Description:
+        </label>
+
+        <textarea formControlName="description">
+
+        </textarea>
+
+        <label>
+            Priority
+        </label>
+
+        <select formControlName="priority">
+
+            @for (priority of priorities; track priority) {
+
+                <option [value] = "priority">
+                
+            {{ priority }}
+            
+            </option>
+            
+        }
+        </select>
+
+        <label>
+
+        Due Date
+
+        </label>
+
+        <input type="date" formControlName="dueDate">
+
+        <button type="submit" [disabled]= "form.invalid">
+
+        Save
+
+    </button>
+
+</form>
+
+</div>

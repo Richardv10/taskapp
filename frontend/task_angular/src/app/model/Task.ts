@@ -1,0 +1,13 @@
+
+
+export interface Task {
+    id: string;
+    title: string;
+    description: string;
+    dueDate: string;
+    status: string;
+    priority: string;
+    created: string;
+    updated: string;
+
+}
