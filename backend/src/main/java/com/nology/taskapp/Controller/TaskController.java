@@ -19,6 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/v1/tasks")
+// @CrossOrigin(origins = "http://localhost:4200")
 public class TaskController {
 
     private final TaskService taskService;
@@ -56,6 +57,12 @@ public ResponseEntity<TaskDto> createTask(@Valid @RequestBody CreateTaskRequestD
         Task task = taskService.updateTask(taskId, updateTaskRequest);
         TaskDto taskDto = taskMapper.toDto(task);
         return ResponseEntity.ok(taskDto);
+    }
+
+    @DeleteMapping(path= "/{taskId}")
+    public ResponseEntity<Void> deleteTask(@PathVariable UUID taskId) {
+        taskService.deleteTask(taskId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

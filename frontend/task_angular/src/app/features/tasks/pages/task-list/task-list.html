@@ -1,1 +1,31 @@
-<p>task-list works!</p>
+<div>
+
+    <button routerLink="/tasks/new">
+  New Task
+</button>
+
+<h1> Tasks </h1>
+
+@for (task of tasks(); track task.id) {
+
+    
+
+
+<article>
+
+<h3> {{ task.title }} </h3>
+<p> {{ task.description }} </p>
+<p> {{ task.priority }} </p>
+<p> {{ task.status }} </p>
+<p> {{ task.dueDate }} </p>
+
+</article>
+
+}
+
+ @empty {
+
+  <p>No tasks found.</p>
+
+}
+</div>

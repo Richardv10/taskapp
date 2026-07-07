@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { TaskList } from './features/tasks/pages/task-list/task-list';
-import { InputForm } from './features/tasks/pages/task-form/task-form';
+import { TaskForm } from './features/tasks/pages/task-form/task-form';
 import { TaskDetails } from './features/tasks/pages/task-details/task-details';
 
 
@@ -20,7 +20,7 @@ export const routes: Routes = [
 
     {
         path: 'tasks/new',
-        component: InputForm
+        component: TaskForm
     },
 
     {
@@ -30,7 +30,7 @@ export const routes: Routes = [
 
     {
         path: 'tasks/:id/edit',
-        component: InputForm
+        component: TaskForm
     }
 
 

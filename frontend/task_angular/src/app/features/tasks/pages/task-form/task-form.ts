@@ -2,15 +2,18 @@ import { Component, inject } from '@angular/core';
 import {FormControl, ReactiveFormsModule, FormBuilder, Validators, FormGroup} from '@angular/forms';
 import { Priority } from '../../../../model/priority';
 import { Status } from '../../../../model/status';
+import { TaskService } from '../../../../services/task.service';
 
 @Component({
-  selector: 'app-input-form',
+  selector: 'app-task-form',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './task-form.html',
   styleUrl: './task-form.css',
 })
-export class InputForm {
+export class TaskForm {
+
+    private readonly taskService = inject(TaskService);
 
   protected readonly priorities = Object.values(Priority);
   
@@ -48,7 +51,13 @@ export class InputForm {
 
     });
 
-    save() {}
+    save() {
+        const request = this.form.getRawValue();
+        this.taskService.createTask(request).subscribe(task => console.log(task))
+
+
+
+    }
 
 
   
