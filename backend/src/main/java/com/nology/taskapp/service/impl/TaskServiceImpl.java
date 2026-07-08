@@ -44,7 +44,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> listTasks() {
-        return taskRepository.findAll(Sort.by(Sort.Direction.ASC));
+        return taskRepository.findAll(Sort.by(Sort.Direction.ASC, "dueDate"));
     }
 
     @Override
@@ -63,6 +63,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTask(UUID taskId) {
         taskRepository.deleteById(taskId);
+    }
+
+    @Override
+    public Task getTask(UUID taskId) {
+        return taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskNotFoundException(taskId));
     }
 
 

@@ -30,8 +30,9 @@ public class TaskMapperImpl implements TaskMapper {
                 dto.title(),
                 dto.description(),
                 dto.dueDate(),
-                dto.status(),
-                dto.priority()
+                dto.priority(),
+                dto.status()
+
         );
     }
 

@@ -65,6 +65,15 @@ public ResponseEntity<TaskDto> createTask(@Valid @RequestBody CreateTaskRequestD
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping(path= "/{taskId}")
+    public ResponseEntity<TaskDto> getTask(@PathVariable UUID taskId) {
+
+        Task task = taskService.getTask(taskId);
+        TaskDto dto = taskMapper.toDto(task);
+
+        return ResponseEntity.ok(dto);
+    }
+
 
 
 

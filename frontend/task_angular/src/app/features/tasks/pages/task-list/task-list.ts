@@ -1,10 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
 import { Task } from '../../../../model/Task';
 
 @Component({
   selector: 'app-task-list',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './task-list.html',
   styleUrl: './task-list.css',
 })
@@ -12,6 +13,9 @@ import { Task } from '../../../../model/Task';
 // lifestyle hook ngInit is fine here due to scope
 
 export class TaskList implements OnInit {
+
+
+
   
   // Inject that dependency
 
@@ -24,11 +28,28 @@ export class TaskList implements OnInit {
   
   ngOnInit(): void {
     
-    // taskservice methods are now available, so we subscribe to the observable, I don't fully get this yet
-    
+    // task service methods are now available, so we subscribe to the observable, I don't fully get this yet
+
     this.taskService.listTasks().subscribe( tasks => this.tasks.set(tasks));
   }
 
-  
+   delete(task: Task): void {
 
+    if(!confirm("You sure you wanna do this?")) {
+      return
+    }
+        this.taskService
+        .deleteTask(task.id)
+        .subscribe(() => {
+
+            this.tasks.update(tasks =>
+                tasks.filter(currentTask => currentTask.id !== task.id)
+            )
+        }
+
+   )}
+
+   
+
+   
 }

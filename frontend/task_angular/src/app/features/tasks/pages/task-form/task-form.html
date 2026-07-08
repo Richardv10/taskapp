@@ -42,6 +42,24 @@
         </select>
 
         <label>
+            Status
+        </label>
+
+        <select formControlName="status">
+
+            @for(status of statuses; track status) {
+
+                <option [value] = "status">
+
+                    {{ status }}
+
+                </option>
+            }
+
+
+        </select>
+
+        <label>
 
         Due Date
 

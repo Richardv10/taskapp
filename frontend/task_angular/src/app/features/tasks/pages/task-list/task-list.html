@@ -1,6 +1,6 @@
 <div>
 
-    <button routerLink="/tasks/new">
+<button routerLink="/tasks/new">
   New Task
 </button>
 
@@ -19,6 +19,13 @@
 <p> {{ task.status }} </p>
 <p> {{ task.dueDate }} </p>
 
+<button (click)="delete(task)">
+Delete
+</button>
+
+<button [routerLink]="['/tasks', task.id, 'edit']">
+  Update
+</button>
 </article>
 
 }
