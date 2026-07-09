@@ -103,9 +103,9 @@ export class TaskForm implements OnInit {
 
 
 
-    // This gets the JSON data and saves it in the request variable, then pass it to the taskService instance method "createTask"
-    // The last bit is still magic, but it uses the router I imported to return to the tasks list. 
-    // As it subscribes, it waits for the HTTP response before navigating the () => shorthand doesn't handle errors (next:, error:)
+    // This gets the JSON data and saves it in the request variable, then pass it to the appropriate taskService instance method
+    // after calling the method, you subscribe to the observable
+    // This means that when the response is received, it navigates to the /tasks screen. The () => shorthand doesn't handle errors nicely though
     save() {
         if(this.taskId) {
             const request: updateTaskRequest = this.form.getRawValue();

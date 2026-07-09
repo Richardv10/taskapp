@@ -1,0 +1,39 @@
+<mat-sidenav-container>
+
+<mat-sidenav mode="side" opened>
+    
+<mat-nav-list>
+<!-- This for loop uses the navigation file to build the navbar instead of listing multiple individual components-->
+   @for (item of navigation; track item.route) {
+
+  <a mat-list-item [routerLink]="item.route">
+    <mat-icon>{{ item.icon }}</mat-icon>
+    <span>{{ item.label }}</span>
+  </a>
+
+}
+
+</mat-nav-list>
+
+</mat-sidenav>
+
+<mat-sidenav-content>
+
+<mat-toolbar>
+
+ <mat-icon>
+        event_note
+    </mat-icon>
+
+    <span>
+        Task Planner
+    </span>
+
+</mat-toolbar>
+
+<router-outlet />
+
+</mat-sidenav-content>
+
+</mat-sidenav-container>
+

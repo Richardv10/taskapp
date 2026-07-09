@@ -1,12 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-// import { ReactiveFormsModule, FormBuilder, Validators, InputForm } from './input-form/input-form';
+import { AppShell } from './layout/app-shell/app-shell';
 
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [AppShell],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
