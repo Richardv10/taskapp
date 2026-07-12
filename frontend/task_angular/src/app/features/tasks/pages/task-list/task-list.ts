@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TaskService } from '../../../../services/task.service';
+// import { TaskService } from '../../../../services/task.service';
 import { Task } from '../../../../model/Task';
+import { TaskStore } from '../../../../store/task-store' 
 
 @Component({
   selector: 'app-task-list',
@@ -14,42 +15,42 @@ import { Task } from '../../../../model/Task';
 
 export class TaskList implements OnInit {
 
+// New Taskstore Dependency Injection
+
+private readonly taskStore = inject(TaskStore);
+
+readonly tasks = this.taskStore.tasks;
 
 
+
+// I've left the refactored code from the addition of TaskStore in this component, to see the results of the refactor and why. 
   
-  // Inject that dependency
+  // Inject dependency
 
-  private readonly taskService = inject(TaskService);
+  // private readonly taskService = inject(TaskService);
   
-  //assign the signal to tasks, it's a function that provides the array, not the array itself call with tasks()
-  readonly tasks = signal<Task[]>([])
+  // assign the signal to tasks, it's a function that provides the array, not the array itself call with tasks()
+  // readonly tasks = signal<Task[]>([])
   
   
   
   ngOnInit(): void {
     
-    // task service methods are now available, so we subscribe to the observable, I don't fully get this yet
 
-    this.taskService.listTasks().subscribe( tasks => this.tasks.set(tasks));
+    // this.taskService.listTasks().subscribe( tasks => this.tasks.set(tasks));
+    // The above is now replaced in TaskStore with a call to that instead.
+
+    this.taskStore.loadTasks();
   }
 
-   delete(task: Task): void {
-
+  delete(task: Task) {
+    
     if(!confirm("You sure you wanna do this?")) {
       return
     }
-        this.taskService
-        .deleteTask(task.id)
-        .subscribe(() => {
-
-            this.tasks.update(tasks =>
-                tasks.filter(currentTask => currentTask.id !== task.id)
-            )
-        }
-
-   )}
-
+      
+    this.taskStore.deleteTask(task)
    
-
+  }
    
 }
