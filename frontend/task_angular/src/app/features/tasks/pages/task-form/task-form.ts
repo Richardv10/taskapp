@@ -5,6 +5,7 @@ import { Status } from '../../../../model/status';
 import { TaskService } from '../../../../services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { updateTaskRequest } from '../../../../model/update-task-request';
+import { TaskStore } from '../../../../store/task-store';
 
 @Component({
   selector: 'app-task-form',
@@ -15,8 +16,8 @@ import { updateTaskRequest } from '../../../../model/update-task-request';
 })
 export class TaskForm implements OnInit {
     
-    // inject TaskService and Router Dependencies to use API
-    private readonly taskService = inject(TaskService);
+    // inject TaskStore and Router Dependencies to use API
+    private readonly taskStore = inject(TaskStore);
     
     private readonly router = inject(Router);
   
@@ -82,7 +83,7 @@ export class TaskForm implements OnInit {
         // Ok so "this.form.patchValue" is how we prefill the form from the task, using subscribe(task=>...) pattern again
         //then redefining the object fields using the task.properties.
     if (this.taskId) {
-        this.taskService.getTask(this.taskId)
+        this.taskStore.getTask(this.taskId)
         .subscribe(task => {
             this.form.patchValue({
                 title: task.title,
@@ -98,11 +99,6 @@ export class TaskForm implements OnInit {
 
 }
 
-
-
-
-
-
     // This gets the JSON data and saves it in the request variable, then pass it to the appropriate taskService instance method
     // after calling the method, you subscribe to the observable
     // This means that when the response is received, it navigates to the /tasks screen. The () => shorthand doesn't handle errors nicely though
@@ -110,13 +106,15 @@ export class TaskForm implements OnInit {
         if(this.taskId) {
             const request: updateTaskRequest = this.form.getRawValue();
 
-            this.taskService.updateTask(this.taskId, request)
+            this.taskStore.updateTask(this.taskId, request)
             .subscribe(() => this.router.navigate(['/tasks']))
         }
+        
         else {
         
         const request = this.form.getRawValue();
-        this.taskService.createTask(request)
+        
+        this.taskStore.createTask(request)
         .subscribe(() => this.router.navigate(['/tasks']))
         }
     }

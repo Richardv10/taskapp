@@ -1,7 +1,7 @@
 import { Priority } from './priority';
 import { Status } from './status';
 
-export interface updateTaskRequest {
+export interface UpdateTaskRequest {
     title: string;
     description: string;
     dueDate: string;
