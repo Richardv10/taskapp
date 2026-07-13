@@ -3,8 +3,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Task } from '../model/Task';
 import { Observable } from 'rxjs/internal/Observable';
-import { createTaskRequest } from '../model/create-task-request';
-import { updateTaskRequest } from '../model/update-task-request';
+import { CreateTaskRequest } from '../model/create-task-request';
+import { UpdateTaskRequest } from '../model/update-task-request';
 
 //Makes the injectable available to the whole app (root)
 @Injectable({
@@ -28,11 +28,11 @@ export class TaskService {
         return this.http.get<Task[]>(this.apiUrl);
     }
 
-    createTask(request: createTaskRequest): Observable<Task> {
+    createTask(request: CreateTaskRequest): Observable<Task> {
         return this.http.post<Task>(this.apiUrl, request);
     }
 
-    updateTask(taskId: string, request: updateTaskRequest): Observable<Task> {
+    updateTask(taskId: string, request: UpdateTaskRequest): Observable<Task> {
         return this.http.put<Task>(`${this.apiUrl}/${taskId}`, request);
     }
 

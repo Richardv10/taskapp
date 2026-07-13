@@ -1,10 +1,12 @@
-import { Service, signal, inject, Injectable } from '@angular/core';
+import { Service, signal, inject, Injectable, computed } from '@angular/core';
 import { Task } from '../model/Task';
 import { TaskService } from '../services/task.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { of, tap } from 'rxjs';
 import { CreateTaskRequest, } from '../model/create-task-request';
 import { UpdateTaskRequest } from '../model/update-task-request'; 
+import { Status } from '../model/status';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -14,17 +16,57 @@ import { UpdateTaskRequest } from '../model/update-task-request';
     providedIn: 'root'
 })
 
+
 // The first two methods in this class have come from the components, as the app grows we've moved them off the components 
-// and into a central store, the methods are identical, and still speak to the api. However now they're not scattered throughout the app
+// and into a central store, the methods are identical, and still speak to the API. However now they're not scattered throughout the app
 // making their own HTTP calls to the API. The store handles the taskservice, and we just inject taskstore. 
 
 export class TaskStore {
 
-   
+   private readonly datePipe = inject(DatePipe);
 
     private readonly taskService = inject(TaskService); 
     
     private readonly tasks = signal<Task[]>([]);
+
+
+// Computed signals to avoid exposing signal<Tasks[]> to the components further managing state via taskStore (bloody love this store malarky, feels powerful)
+// Return to this comment in 12 months 
+
+readonly totalTasks = computed(() => this.tasks().length);
+
+readonly openTasks = computed(() => this.tasks().filter(task => task.status === Status.OPEN));
+
+readonly completedTasks = computed(() => this.tasks().filter(task => task.status === Status.COMPLETE));
+
+readonly overdueTasks = computed(() => {
+
+    const today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    
+    if (!today) {
+        return [];
+    }
+    
+    return this.tasks().filter(task => task.dueDate > today);
+});
+
+readonly todaysTasks = computed(() => {
+
+    const today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+
+    if (!today) {
+        return [];
+    }
+
+    return this.tasks().filter(task => task.dueDate === today);
+
+});
+
+
+
+
+
+
 
 
 

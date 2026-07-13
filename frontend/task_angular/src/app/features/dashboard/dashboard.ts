@@ -1,7 +1,8 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { StatCard } from '../../shared/components/stat-card';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../model/Task';
+import { TaskStore } from '../../store/task-store';
 
 
 @Component({
@@ -11,7 +12,13 @@ import { Task } from '../../model/Task';
   styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnInit {
-  readonly tasks = signal<Task[]>([]);
+  
+  private readonly taskStore = inject(TaskStore);
+
+  readonly totalTasks = this.taskStore.totalTasks;
+  readonly todaysTasks = this.taskStore.todaysTasks;
+  readonly completedTasks = this.taskStore.completedTasks;
+  readonly overdueTasks = this.taskStore.overdueTasks;
   
   ngOnInit() {
     
