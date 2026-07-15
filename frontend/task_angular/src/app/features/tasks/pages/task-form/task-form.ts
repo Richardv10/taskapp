@@ -2,9 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import {FormControl, ReactiveFormsModule, FormBuilder, Validators, FormGroup} from '@angular/forms';
 import { Priority } from '../../../../model/priority';
 import { Status } from '../../../../model/status';
-import { TaskService } from '../../../../services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { updateTaskRequest } from '../../../../model/update-task-request';
+import { UpdateTaskRequest } from '../../../../model/update-task-request';
 import { TaskStore } from '../../../../store/task-store';
 
 @Component({
@@ -104,7 +103,7 @@ export class TaskForm implements OnInit {
     // This means that when the response is received, it navigates to the /tasks screen. The () => shorthand doesn't handle errors nicely though
     save() {
         if(this.taskId) {
-            const request: updateTaskRequest = this.form.getRawValue();
+            const request: UpdateTaskRequest = this.form.getRawValue();
 
             this.taskStore.updateTask(this.taskId, request)
             .subscribe(() => this.router.navigate(['/tasks']))

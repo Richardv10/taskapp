@@ -6,7 +6,7 @@ import { of, tap } from 'rxjs';
 import { CreateTaskRequest, } from '../model/create-task-request';
 import { UpdateTaskRequest } from '../model/update-task-request'; 
 import { Status } from '../model/status';
-import { DatePipe } from '@angular/common';
+
 
 
 
@@ -19,46 +19,53 @@ import { DatePipe } from '@angular/common';
 
 // The first two methods in this class have come from the components, as the app grows we've moved them off the components 
 // and into a central store, the methods are identical, and still speak to the API. However now they're not scattered throughout the app
-// making their own HTTP calls to the API. The store handles the taskservice, and we just inject taskstore. 
+// making their own HTTP calls to the API. The store handles the taskservice, and we just inject taskstore into components.
+// TaskStore then becomes the state management logic controller at the component level 
 
 export class TaskStore {
 
-   private readonly datePipe = inject(DatePipe);
+   // private readonly datePipe = inject(DatePipe);
 
     private readonly taskService = inject(TaskService); 
     
-    private readonly tasks = signal<Task[]>([]);
+    private readonly _tasks = signal<Task[]>([]);
+
+    readonly tasks = this._tasks.asReadonly();
 
 
 // Computed signals to avoid exposing signal<Tasks[]> to the components further managing state via taskStore (bloody love this store malarky, feels powerful)
-// Return to this comment in 12 months 
+// Can pass computed() values into further functions to calculate template values such as "count"
 
-readonly totalTasks = computed(() => this.tasks().length);
+readonly totalTasks = computed(() => this._tasks().length);
 
-readonly openTasks = computed(() => this.tasks().filter(task => task.status === Status.OPEN));
+readonly openTasks = computed(() => this._tasks().filter(task => task.status === Status.OPEN));
 
-readonly completedTasks = computed(() => this.tasks().filter(task => task.status === Status.COMPLETE));
+readonly completedTasks = computed(() => this._tasks().filter(task => task.status === Status.COMPLETE));
+
+readonly completedCount = computed(() => this.completedTasks.length);
 
 readonly overdueTasks = computed(() => {
 
-    const today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    const today = new Date().toISOString().slice(0, 10);
     
     if (!today) {
         return [];
     }
     
-    return this.tasks().filter(task => task.dueDate > today);
+    return this._tasks().filter(task => task.dueDate > today);
 });
+
+readonly overdueCount = computed(() => this.overdueTasks.length);
 
 readonly todaysTasks = computed(() => {
 
-    const today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    const today = new Date().toISOString().slice(0, 10);
 
     if (!today) {
         return [];
     }
 
-    return this.tasks().filter(task => task.dueDate === today);
+    return this._tasks().filter(task => task.dueDate === today);
 
 });
 
@@ -72,7 +79,7 @@ readonly todaysTasks = computed(() => {
 
 loadTasks(): void {
 
-    this.taskService.listTasks().subscribe( tasks => this.tasks.set(tasks));
+    this.taskService.listTasks().subscribe( tasks => this._tasks.set(tasks));
 }
 
 deleteTask(task: Task): void {
@@ -82,8 +89,8 @@ deleteTask(task: Task): void {
         .deleteTask(task.id)
         .subscribe(() => {
 
-            this.tasks.update(tasks =>
-                tasks.filter(currentTask => currentTask.id !== task.id)
+            this._tasks.update(_tasks =>
+                _tasks.filter(currentTask => currentTask.id !== task.id)
             )
         }
 
@@ -95,7 +102,7 @@ deleteTask(task: Task): void {
    // and returns the unchanged Task. 
 getTask(id: string): Observable<Task> {
     
-    const cachedTask = this.tasks().find(task => task.id === id);
+    const cachedTask = this._tasks().find(task => task.id === id);
 
         if (cachedTask) {
             return of(cachedTask);
@@ -103,7 +110,7 @@ getTask(id: string): Observable<Task> {
 
         return this.taskService.getTask(id).pipe(
             tap(task => {
-                this.tasks.update(tasks => [...tasks, task]);
+                this._tasks.update(tasks => [...tasks, task]);
     })
 );
 
@@ -117,7 +124,7 @@ getTask(id: string): Observable<Task> {
 createTask(request: CreateTaskRequest): Observable<Task> {
     return this.taskService.createTask(request).pipe(
         tap(task => {
-            this.tasks.update(tasks => [...tasks, task]);
+            this._tasks.update(tasks => [...tasks, task]);
         })
     );
 }
@@ -133,7 +140,7 @@ updateTask(id: string, request: UpdateTaskRequest): Observable<Task> {
 
         tap(updatedTask => {
 
-            this.tasks.update(tasks => 
+            this._tasks.update(tasks => 
                 tasks.map(task =>
                     task.id === updatedTask.id ? updatedTask : task)
             )

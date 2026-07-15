@@ -8,6 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { NAVIGATION } from '../../navigation/navigation.config';
 
+// The AppShell simply hosts the navigation for the SPA, defined in the routes and Nav folders
 
 @Component({
   selector: 'app-app-shell',

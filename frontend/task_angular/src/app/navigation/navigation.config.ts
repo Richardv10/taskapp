@@ -1,5 +1,7 @@
 import { NavigationItem } from "./navigation-item";
 
+
+// Doesn't replace the routes file, but functions in addition. Providing user accessible route management 
 export const NAVIGATION: readonly NavigationItem[] = [
     {
         label: 'Dashboard',

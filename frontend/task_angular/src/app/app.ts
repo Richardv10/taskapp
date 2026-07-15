@@ -10,6 +10,6 @@ import { AppShell } from './layout/app-shell/app-shell';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('task_angular');
+  
 }
 

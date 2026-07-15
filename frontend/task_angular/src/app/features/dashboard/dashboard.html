@@ -1,14 +1,24 @@
-<app-stat-card
-    title="Overdue"
-    icon="warning"
-    [value]= "2" />
+<div class="dashboard-container">
+  <div class="stats-grid">
+    <app-stat-card
+        [title]="'Total Tasks'"
+        [icon]="'assignment'"
+        [value]= "totalTasks()" />
 
-<app-stat-card
-    title="Today"
-    icon="today"
-    [value]= "5" />
+    <app-stat-card
+        [title]="'Due Today'"
+        [icon]="'today'"
+        [value]= "todaysTasks().length" />
 
-<app-stat-card
-    title="Completed"
-    icon="task_alt"
-    [value]= "41" />
+    <app-stat-card
+        [title]="'Completed'"
+        [icon]="'check_circle'"
+        [value]= "completedCount()" />
+  
+    <app-stat-card
+        [title]="'Overdue'"
+        [icon]="'check_circle'"
+        [value]= "overdueCount()" />
+</div>
+</div>
+

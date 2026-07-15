@@ -12,7 +12,10 @@ export class StatCard {
 
   // These are modern Angular22 signal inputs, you call them as functions in the template
   // This is an example of a simple component API, no component state management
-  // Just displaying data, so can be reused and removed easily 
+  // Just displaying data, so can be reused and removed easily
+  // Combined with the TaskStore service, no endpoints are exposed, 
+  // and signals can't be edited by the template 
+  
   readonly title = input.required<string>();
 
   readonly icon = input.required<string>();

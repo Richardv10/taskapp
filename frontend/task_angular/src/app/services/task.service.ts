@@ -13,6 +13,8 @@ import { UpdateTaskRequest } from '../model/update-task-request';
 
 })
 
+// This class is built from the spring API endpoints for CRUD operations, and acts as the central controller
+// For the App I/O
 
 export class TaskService {
 

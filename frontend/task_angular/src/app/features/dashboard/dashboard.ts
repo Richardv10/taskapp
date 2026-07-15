@@ -19,6 +19,8 @@ export class Dashboard implements OnInit {
   readonly todaysTasks = this.taskStore.todaysTasks;
   readonly completedTasks = this.taskStore.completedTasks;
   readonly overdueTasks = this.taskStore.overdueTasks;
+  readonly completedCount = this.taskStore.completedCount;
+  readonly overdueCount = this.taskStore.overdueCount;
   
   ngOnInit() {
     
